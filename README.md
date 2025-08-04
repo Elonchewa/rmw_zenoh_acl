@@ -12,13 +12,13 @@ The Orin connects to the Nuc on the interface enP8p1s0 and has an ip 192.168.10.
 Note: In this repo Rob1 stands for the nuc and Rob2 stands for the Orin. 
 
 
-The two devices have their corresponding zenoh router configuration files (I've posted the configs for both in this repo). The environment variable ZENOH_ROUTER_CONFIG_URI is set on both; however, the session config is in default settings for both (I do not have ZENOH_SESSION_CONFIG files for either).
+The two devices have their corresponding zenoh router configuration files (I've posted the configs for both in this repo). The environment variable ZENOH_ROUTER_CONFIG_URI is set on both; however, the session config is in default settings for both (I do not have ZENOH_SESSION_CONFIG files for either). The example configs in the repo are trying to block the `/chatter` topic from being sent between the two.
 
 Background:
 * Before I used the access_control part of the configs, my goal was just for the two devices to send all their topics with each other. However, at times I would have lots of topics being published/subscribed to and the data for all topics would stop sending (I'm assuming this is due to bandwidth issues). So I decided to limit the topics that send their data across the routers. I only need a few topics to be shared between them.
 
 Current:
-* After I included the access_control part of the config,When the routers are started on both machines through `ros2 run rmw_zenoh_cpp rmw_zenohd`, the router logs a message that the interface specified in the access_control `did not match any configured ACL subject. Default permission Allow will be applied on all messages`. Which means I am back to state I was in before I configured the ACL settings.
+* After I included the access_control part of the config,When the routers are started on both machines through `ros2 run rmw_zenoh_cpp rmw_zenohd`, the router on both logs a message that the interface specified in the access_control `did not match any configured ACL subject. Default permission Allow will be applied on all messages`. Which means I am back to state I was in before I configured the ACL settings.
 * When I run `ros2 topic list` I can see all the topics from one device listed on the other.
 
 I'm not sure if this issue is due to networking or due to limitations of zenoh on humble. 
