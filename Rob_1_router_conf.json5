@@ -34,10 +34,8 @@
     ///
     /// See https://docs.rs/zenoh/latest/zenoh/config/struct.EndPoint.html
     endpoints: [
-      "tcp/192.168.10.1:7447",
-//      "tcp/192.168.0.190:7447",
-      // "tcp/10.31.190.102:7447"
-	// "tcp/192.168.10.3:7447",
+      // "<proto>/<address>"
+      "tcp/192.168.10.2:7447"
     ],
 
     /// Global connect configuration,
@@ -83,12 +81,7 @@
     ///
     /// See https://docs.rs/zenoh/latest/zenoh/config/struct.EndPoint.html
     endpoints: [
-      "tcp/[::]:7447", 
-//       "tcp/0.0.0.0:7447#iface=wlP1p1s0",
-      // "tcp/192.168.10.2:7447",
-      // "tcp/192.168.0.176:7447",
-      // "tcp/[fe80::3969:64f2:f351:c8d9]:7447",
-      // "tcp/[fe80::b810:e17e:7c8a:e58c]:7447"
+      "tcp/[::]:7447"
     ],
 
     /// Global listen configuration,
@@ -235,106 +228,68 @@
   //  },
 
   //  /// The downsampling declaration.
-  //  downsampling: [
-  //    {
-  //      /// A list of network interfaces messages will be processed on, the rest will be passed as is.
-  //      interfaces: [ "wlan0" ],
-  //      /// Data flow messages will be processed on. ("egress" or "ingress")
-  //      flow: "egress",
-  //      /// A list of downsampling rules: key_expression and the maximum frequency in Hertz
-  //      rules: [
-  //        { key_expr: "demo/example/zenoh-rs-pub", freq: 0.1 },
-  //      ],
-  //    },
-  //  ],
-   /// Configure access control (ACL) rules
-     access_control: {
-    /// [true/false] acl will be activated only if this   is set to true
-    "enabled": true,
-    /// [deny/allow] default permission is deny (even if this is left empty or not specified)
-    "default_permission": "allow",
-    /// Rule set for permissions allowing or denying access to key-expressions
-    "rules":
-    [
-      {
-        /// Id has to be unique within the rule set
-        "id": "rule1",
-        "messages": [
-          "put", "delete", "declare_subscriber",
-          // "query", "reply", "declare_queryable",
-          // "liveliness_token", "liveliness_query", "declare_liveliness_subscriber",
-        ],
-        "flows":["ingress"],
-        "permission": "deny",
-        "key_exprs": [
-          "*/chatter/**",
-          // "*/RR06/arm",
-          // "*/RR06/cmd_vel",
-          // "*/RR06/d455/aligned_depth_to_infra1/camera_info/**",
-          // "*/RR06/d455/aligned_depth_to_infra1/image_raw/**",
-          // "*/RR06/d455/depth/image_rect_raw/**",
-          // "*/RR06/d455/depth/metadata/**",
-          // "*/RR06/d455/extrinsics/depth_to_accel/**",
-          // "*/RR06/d455/extrinsics/depth_to_color/**",
-          // "*/RR06/d455/extrinsics/depth_to_gyro/**",
-          // "*/RR06/d455/extrinsics/depth_to_infra1/**",
-          // "*/RR06/d455/extrinsics/depth_to_infra2/**",
-          // "*/RR06/d455/gyro/imu_info/**",
-          // "*/RR06/d455/gyro/metadata/**",
-          // "*/RR06/d455/gyro/sample/**",
-          // "*/RR06/d455/imu/**",
-          // "*/RR06/d455/infra1/camera_info/**",
-          // "*/RR06/d455/infra1/image_rect_raw/**",
-          // "*/RR06/d455/infra1/metadata/**",
-          // "*/RR06/d455/infra2/camera_info/**",
-          // "*/RR06/d455/infra2/image_rect_raw/**",
-          // "*/RR06/d455/infra2/metadata/**",
-          // "*/RR06/joint_states/**",
-          // "*/RR06/joy_teleop/cmd_vel/**",
-          // "*/RR06/joy_teleop/joy/**",
-          // "*/RR06/joy_teleop/joy/set_feedback/**",
-          // "*/RR06/robot_description/**",
-          // "*/dlio/odom_node/keyframes/**",
-          // "*/dlio/odom_node/odom/**",
-          // "*/dlio/odom_node/path/**",
-          // "*/dlio/odom_node/pointcloud/deskewed/**",
-          // "*/dlio/odom_node/pointcloud/keyframe/**",
-          // "*/dlio/odom_node/pose/**",
-          // "*/initialpose/**",
-          // "*/livox/imu/**",
-          // // "*/livox/lidar/**",
-          // "*/map/**",
-          // "*/move_base_simple/goal/**",
-          // "*/parameter_events/**",
-          // "*/rosout/**",
-          // "*/tf/**",
-          // "*/tf_static/**"
-        ],
-      },
-    ],
-    "subjects":
-    [
-      {
-        /// Id has to be unique within the subjects list
-        "id": "subject1",
-        /// Subjects can be interfaces
-        // "interfaces": [
-        //   "enx000ec6a4097b", "fe80::20e:c6ff:fea4:97b%enx000ec6a4097b", "router", "device", "inet4"
-        // ],
-      },
-    ],
-    /// The policies list associates rules to subjects
-    "policies":
-    [
-       /// Each policy associates one or multiple rules to one or multiple subject combinations
-       {
-          /// Rules and Subjects are identified with their unique IDs declared above
-          "id": null,
-          "rules": ["rule1"],
-          "subjects": ["subject1"],
-       },
-    ]
-  },
+// downsampling: [
+//   {
+//     // Downsampling publications in egress on WiFi interface
+//     interfaces: ["enx000ec6a4097b"],
+//     flow: "egress",
+//     rules: [
+//       // 0.5Hz for the ZenohenP8p1s0: key expression used for the "/chatter_public" topic
+//       {
+//         key_expr: "*/chatter_public/**",
+//         freq: 0.5
+//       },
+//     ],
+//   },
+// ],
+
+  //  /// Configure access control (ACL) rules
+  //  access_control: {
+  //   /// [true/false] acl will be activated only if this is set to true
+  //   "enabled": true,
+  //   /// [deny/allow] default permission is deny (even if this is left empty or not specified)
+  //   "default_permission": "allow",
+  //   /// Rule set for permissions allowing or denying access to key-expressions
+  //   "rules":
+  //   [
+  //     {
+  //       /// Id has to be unique within the rule set
+  //       "id": "rule1",
+  //       "messages": [
+  //         "put",// "delete", "declare_subscriber",
+  //         // "query", "reply", "declare_queryable",
+  //         // "liveliness_token", "liveliness_query", "declare_liveliness_subscriber",
+  //       ],
+  //       "flows":["egress"],
+  //       "permission": "deny",
+  //       "key_exprs": [
+  //        "*/livox/lidar/**"
+  //       ],
+  //     },
+  //   ],
+  //   "subjects":
+  //   [
+  //     {
+  //       /// Id has to be unique within the subjects list
+  //       "id": "subject1",
+  //       /// Subjects can be interfaces
+  //       // "interfaces": [
+  //       //   "enx000ec6a4097b", "fe80::20e:c6ff:fea4:97b%enx000ec6a4097b", "router", "device", "inet4"
+  //       // ],
+  //     },
+  //   ],
+  //   /// The policies list associates rules to subjects
+  //   "policies":
+  //   [
+  //      /// Each policy associates one or multiple rules to one or multiple subject combinations
+  //      {
+  //         /// Rules and Subjects are identified with their unique IDs declared above
+  //         "id": null,
+  //         "rules": ["rule1"],
+  //         "subjects": ["subject1"],
+  //      },
+  //   ]
+  // },
 
   /// Configure internal transport parameters
   transport: {
@@ -352,8 +307,7 @@
       /// Enables the LowLatency transport
       /// This option does not make LowLatency transport mandatory, the actual implementation of transport
       /// used will depend on Establish procedure and other party's settings
-      
-///
+      ///
       /// NOTE: Currently, the LowLatency transport doesn't preserve QoS prioritization.
       /// NOTE: Due to the note above, 'lowlatency' is incompatible with 'qos' option, so in order to
       ///       enable 'lowlatency' you need to explicitly disable 'qos'.
